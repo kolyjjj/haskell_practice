@@ -17,6 +17,7 @@ reverseWords [] = []
 reverseWords (x:xs) = (reverseWords xs) ++ [x]
 
 main = do
+    putStrLn "print a line and it will be reversed"
     line <- getLine
     if null line
     then return ()
