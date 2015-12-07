@@ -20,7 +20,7 @@ main = do
     putStrLn "print a line and it will be reversed"
     line <- getLine
     if null line
-    then return ()
+    then return "exit"
     else do
         putStrLn $ reverseWords line
         main
