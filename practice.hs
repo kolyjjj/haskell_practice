@@ -106,3 +106,9 @@ mySum lower upper
     | lower > upper = -1
     | lower == upper = lower
     | otherwise = upper + mySum lower (upper-1)
+
+noParameter :: String
+noParameter = "no return"
+
+noReturn :: String -> ()
+noReturn s = ()
