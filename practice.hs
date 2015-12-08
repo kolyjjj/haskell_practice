@@ -145,3 +145,11 @@ elm' input (x:xs)
     | input == x = True
     | otherwise = elm' input xs
 
+quicksort :: (Ord a) => [a] -> [a]
+quicksort [] = []
+quicksort (x:xs) =
+    let left = [y | y <-xs, y <= x]
+        right = [y | y <-xs, y > x]
+    in
+        quicksort left ++ [x] ++ quicksort right
+
