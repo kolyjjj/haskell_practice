@@ -143,5 +143,5 @@ elm' :: (Eq a) => a -> [a] -> Bool
 elm' _ [] = False
 elm' input (x:xs)
     | input == x = True
-    | otherwise = elm' input xs || False
+    | otherwise = elm' input xs
 
