@@ -34,7 +34,7 @@ insertSpace position s
     where splitResult = splitAt position s
 
 encrypt :: String -> String
-encrypt input = (appendX(toUpperCase (discard input)))
+encrypt input = insertSpace 5 (appendX(toUpperCase (discard input)))
 
 decrypt :: String -> String
 decrypt input = input
