@@ -25,8 +25,16 @@ appendX input
     len = length input
     remainder = len `mod` 5
 
+insertSpace :: Int -> String -> String
+insertSpace 0 s =  s
+insertSpace _ [] = []
+insertSpace position s
+    | position >= length s = s
+    | otherwise = fst splitResult ++ [' '] ++ insertSpace position (snd splitResult)
+    where splitResult = splitAt position s
+
 encrypt :: String -> String
-encrypt input = discard(input)
+encrypt input = (appendX(toUpperCase (discard input)))
 
 decrypt :: String -> String
 decrypt input = input
