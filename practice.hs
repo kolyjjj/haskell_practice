@@ -178,3 +178,7 @@ filter' f (x:xs)
 largestDivisible :: Integer
 largestDivisible = head (filter p [100000,99999..])
     where p x = x `mod` 3829 == 0
+
+-- fold practice
+sum' :: (Num a) => [a] -> a
+sum' xs = foldl (\acc x -> acc + x) 0 xs
