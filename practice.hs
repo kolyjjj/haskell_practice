@@ -153,3 +153,28 @@ quicksort (x:xs) =
     in
         quicksort left ++ [x] ++ quicksort right
 
+applyTwice :: (a -> a) -> a -> a
+applyTwice f x = f (f x)
+
+zipwith' :: (a->b->c) -> [a] -> [b] -> [c]
+zipwith' _ [] _ = []
+zipwith' _ _ [] = []
+zipwith' f (x:xs) (y:ys) = f x y : zipwith' f xs ys
+
+flip' :: (a->b->c) -> (b->a->c)
+flip' f = g
+    where g x y = f y x
+
+map' :: (a->b) -> [a] -> [b]
+map' _ [] = []
+map' f (x:xs) = f(x) : map' f xs
+
+filter' :: (a->Bool) -> [a] -> [a]
+filter' _ [] = []
+filter' f (x:xs)
+    | f x = x : filter' f xs
+    | otherwise = filter' f xs
+
+largestDivisible :: Integer
+largestDivisible = head (filter p [100000,99999..])
+    where p x = x `mod` 3829 == 0
