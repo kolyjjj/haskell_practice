@@ -207,4 +207,23 @@ area :: Shape -> Float
 area (Circle _ r) = pi * r ^ 2
 area (Rectangle (Point x1 y1) (Point x2 y2)) = (abs $ x1 - y1) * (abs $ x2 - y2)
 
+-- record syntax
+data Person = Person {
+    firstName :: String,
+    lastName :: String,
+    age :: Int,
+    height :: Float,
+    weight :: Float,
+    phoneNumber :: String,
+    flavor :: String
+} deriving (Show)
 
+koly = Person {
+    firstName = "koly",
+    lastName = "li",
+    age = 20,
+    height = 177,
+    weight = 55,
+    phoneNumber = "123124123123",
+    flavor = "light"
+}
