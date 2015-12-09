@@ -182,3 +182,14 @@ largestDivisible = head (filter p [100000,99999..])
 -- fold practice
 sum' :: (Num a) => [a] -> a
 sum' xs = foldl (+) 0 xs
+
+-- define own data type
+data Shape = Circle Float Float Float | Rectangle Float Float Float Float
+
+aCircle = Circle 10.1 9.8 10.9
+aRectangle = Rectangle 10 10 10 10
+
+-- pattern match against Constructors
+area :: Shape -> Float
+area (Circle _ _ r) = pi * r ^ 2
+area (Rectangle x1 y1 x2 y2) = (abs $ x1 - y1) * (abs $ x2 - y2)
