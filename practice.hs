@@ -183,6 +183,37 @@ largestDivisible = head (filter p [100000,99999..])
 sum' :: (Num a) => [a] -> a
 sum' xs = foldl (+) 0 xs
 
+array2String :: [Int] -> [Char]
+array2String (xs) = foldl (toString) [] xs
+    where toString (ys) y = ys ++ (show y)
+
+lmap :: (a->b) -> [a] -> [b]
+lmap f xs = foldl (\acc x -> acc ++ [f x] ) [] xs
+
+rmap :: (a->b) -> [a] -> [b]
+rmap f xs = foldr (\x acc -> (f x) : acc) [] xs
+
+lelem :: (Eq a) => a -> [a] -> Bool
+lelem a xs = foldl (\acc x -> if  a == x then True else acc) False xs
+
+relem :: (Eq a) => a -> [a] -> Bool
+relem a xs = foldr (\x acc -> if a == x then True else acc) False xs
+
+lreverse :: [a] -> [a]
+lreverse = foldl (\acc x -> x : acc) []
+
+lproduct :: (Num a) => [a] -> a
+lproduct = foldl (\acc x -> acc*x) 1
+
+lfilter :: (a->Bool) -> [a] -> [a]
+lfilter f xs = foldl (\acc x -> if (f x) == True then acc ++ [x] else acc) [] xs
+
+lLast :: [a] -> a
+lLast all@(x:xs) = foldl (\_ y -> y) x all
+
+l1Last :: [a] -> a
+l1Last = foldl1 (\_ x -> x)
+
 -- define own data type
 data Point = Point Float Float deriving (Show)
 data Shape = Circle Point Float | Rectangle Point Point deriving (Show)
