@@ -184,12 +184,27 @@ sum' :: (Num a) => [a] -> a
 sum' xs = foldl (+) 0 xs
 
 -- define own data type
-data Shape = Circle Float Float Float | Rectangle Float Float Float Float deriving (Show)
+data Point = Point Float Float deriving (Show)
+data Shape = Circle Point Float | Rectangle Point Point deriving (Show)
 
-aCircle = Circle 10.1 9.8 10.9
-aRectangle = Rectangle 10 10 10 10
+aCircle = Circle (Point 10.1 9.8) 10.9
+aRectangle = Rectangle (Point 10 10) (Point 10 10)
+
+-- circle build methods
+baseCircle :: Float -> Shape
+baseCircle = Circle (Point 0 0)
+
+baseRectangle :: Float -> Float -> Shape
+baseRectangle weight height = Rectangle (Point 0 0) (Point weight height)
+
+-- nudge method
+nudge :: Shape -> Float -> Float -> Shape
+nudge (Circle (Point x y) r) addX addY = Circle (Point (x+addX) (y+addY)) r
+nudge (Rectangle (Point x1 y1) (Point x2 y2)) addX addY = Rectangle (Point (x1 + addX) (y1+addY)) (Point (x2 + addX) (y2+addY))
 
 -- pattern match against Constructors
 area :: Shape -> Float
-area (Circle _ _ r) = pi * r ^ 2
-area (Rectangle x1 y1 x2 y2) = (abs $ x1 - y1) * (abs $ x2 - y2)
+area (Circle _ r) = pi * r ^ 2
+area (Rectangle (Point x1 y1) (Point x2 y2)) = (abs $ x1 - y1) * (abs $ x2 - y2)
+
+
