@@ -184,7 +184,7 @@ sum' :: (Num a) => [a] -> a
 sum' xs = foldl (+) 0 xs
 
 -- define own data type
-data Shape = Circle Float Float Float | Rectangle Float Float Float Float
+data Shape = Circle Float Float Float | Rectangle Float Float Float Float deriving (Show)
 
 aCircle = Circle 10.1 9.8 10.9
 aRectangle = Rectangle 10 10 10 10
