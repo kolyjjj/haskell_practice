@@ -221,6 +221,11 @@ data Shape = Circle Point Float | Rectangle Point Point deriving (Show)
 aCircle = Circle (Point 10.1 9.8) 10.9
 aRectangle = Rectangle (Point 10 10) (Point 10 10)
 
+-- Type Parameters
+--data Maybe a = Nothing | Just a
+data IntMaybe = INothing | IJust Int deriving (Show)
+data StringMaybe = SNothing | SJust String deriving (Show)
+
 -- circle build methods
 baseCircle :: Float -> Shape
 baseCircle = Circle (Point 0 0)
