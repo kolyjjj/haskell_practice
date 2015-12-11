@@ -33,5 +33,9 @@ normalPhoneBook = [
        ("bella", "455-2923")
     ]
 
+{-
 findByKey :: String -> [(String, String)] -> String
 findByKey s = snd . head . filter (\(x, y) -> x == s)
+-}
+findByKey :: (Eq k) => k -> [(k, v)] -> Maybe v
+findByKey key = foldr (\(x, y) acc -> if x == key then Just y else acc) Nothing
