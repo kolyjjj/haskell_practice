@@ -264,6 +264,12 @@ koly = Person {
     flavor = "light"
 }
 
+class ToString a where
+    toString :: a -> String
+
+instance ToString Person where
+    toString (Person {firstName = f, lastName = l}) = f ++ "." ++ l
+
 -- implement type class
 data TrafficLight = Red | Yellow | Green
 instance Eq TrafficLight where
@@ -281,3 +287,19 @@ passingRoad light
     | light == Red = "Red light, you cannot pass"
     | light == Yellow = "Yellow light, you cannot pass"
     | light == Green = "Green light, you can pass"
+
+class YesNo a where
+    yesno :: a -> Bool
+
+instance YesNo Int where
+    yesno 0 = False
+    yesno _ = True
+
+instance YesNo Bool where
+    yesno False = False
+    yesno _ = True
+
+
+instance YesNo [a] where
+    yesno [] = False
+    yesno _ = True
