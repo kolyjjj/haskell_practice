@@ -329,3 +329,9 @@ applyFunc2Value (x:xs) y = x y : (applyFunc2Value xs y)
 addMaybe :: Maybe (a->b) -> a -> Maybe b
 addMaybe Nothing _ = Nothing
 addMaybe (Just f) x = Just (f x)
+
+-- Monads
+add9 :: Int -> Maybe Int
+add9 x = if x < 0 then Nothing else Just (x+9)
+
+two = Just 3 >>= add9 >>= add9 >>= add9
