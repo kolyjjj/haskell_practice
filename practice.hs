@@ -269,7 +269,6 @@ class ToString a where
 
 instance ToString Person where
     toString (Person {firstName = f, lastName = l}) = f ++ "." ++ l
-
 -- implement type class
 data TrafficLight = Red | Yellow | Green
 instance Eq TrafficLight where
@@ -303,3 +302,30 @@ instance YesNo Bool where
 instance YesNo [a] where
     yesno [] = False
     yesno _ = True
+
+--instance Functor [] where
+--    fmap f [] = []
+--    fmap f (x:xs) = f x : fmap f xs
+--data Maybe' x = Nothing | Just x
+--instance Functor Maybe' where
+--    fmap f Nothing = Nothing
+--    fmap f (Just x) = Just (f x)
+--testFunc :: a -> b
+--testFunc x = x
+
+aFunc :: (a->b) -> a -> b
+aFunc f x = f x
+
+data CMaybe a = CNothing | CJust Int a deriving (Show)
+
+instance Functor CMaybe where
+    fmap f CNothing = CNothing
+    fmap f (CJust counter x) = CJust (counter+1) $ f x
+
+applyFunc2Value :: [(a->b)] -> a -> [b]
+applyFunc2Value [] _ = []
+applyFunc2Value (x:xs) y = x y : (applyFunc2Value xs y)
+
+addMaybe :: Maybe (a->b) -> a -> Maybe b
+addMaybe Nothing _ = Nothing
+addMaybe (Just f) x = Just (f x)
