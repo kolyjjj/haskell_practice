@@ -1,6 +1,9 @@
 import Control.Monad
 import Data.Char
 
-main = forever $ do
-  l <- getLine
+ever :: IO String -> IO ()
+ever line = forever $ do
+  l <- line
   putStrLn $ map toUpper l
+
+main = ever getLine
