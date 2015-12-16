@@ -1,4 +1,7 @@
-import System.Environment
+--import System.Environment
+--import System.IO
+--import Control.Exception
+import Data.Char
 -- main = putStrLn "hello, world"
 {-
 printHello :: IO ()
@@ -49,3 +52,24 @@ main = do
 --    name <- getProgName
 --    print args
 --    print name
+--main = do
+--    handle <- openFile "girlfriend.txt" ReadMode
+--    contents <- hGetContents handle
+--    putStr contents
+--    hClose handle
+
+--main = do
+--    withFile "girlfriend.txt" ReadMode (\handle -> do
+--        contents <- hGetContents handle
+--        putStr contents)
+
+--main = do
+--    bracket (openFile "girlfriend.txt" ReadMode)
+--        (\handle -> hClose handle)
+--        (\handle -> do
+--                    contents <- hGetContents handle
+--                    putStr contents)
+
+main = do
+    contents <- readFile "girlfriend.txt"
+    writeFile "girlfriendcaps.txt" (map toUpper contents)
