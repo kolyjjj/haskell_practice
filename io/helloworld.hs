@@ -1,3 +1,4 @@
+import System.Environment
 -- main = putStrLn "hello, world"
 {-
 printHello :: IO ()
@@ -31,11 +32,20 @@ main = do
 --    putChar 'a'
 --    print [1,2,3]
 
+--shortLinesOnly :: String -> String
+--shortLinesOnly = unlines . filter (\x -> (length x) > 20) . lines
+--
 --main = do
 --    putStrLn "What's your name?"
---    line <- getLine
---    putStrLn $ "your name: " ++ line
+--    line <- getContents
+--    putStrLn $ shortLinesOnly line
 
-main = do
-    rs <- sequence [getLine, getLine, getLine]
-    print rs
+--main = do
+--    rs <- sequence [getLine, getLine, getLine]
+--    print rs
+
+--main = do
+--    args <- getArgs
+--    name <- getProgName
+--    print args
+--    print name
