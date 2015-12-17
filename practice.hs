@@ -1,5 +1,4 @@
 import qualified Geometry.Sphere as GS
-import qualified Data.Map as DMap
 
 volumn = GS.volume 5.0
 
@@ -342,22 +341,3 @@ seeEither :: Either Int String -> String
 seeEither (Left x) = "this is a left " ++ (show x)
 seeEither (Right y) = "a y " ++ y
 
-data LockerState = Taken | Free deriving (Show, Eq)
-type Code = String
-type LockerMap = DMap.Map Int (LockerState, Code)
-
-lockers :: LockerMap
-lockers = DMap.fromList
-    [
-      (101, (Free, "JK234")),
-      (102, (Free, "YU789")),
-      (103, (Free, "HG123")),
-      (104, (Free, "VN876")),
-      (105, (Free, "CH909"))
-    ]
-
-lockerLookup :: Int -> LockerMap -> Maybe Code
-lockerLookup n l = case DMap.lookup n l of
-    Nothing -> Nothing
-    Just (Taken, code) -> Nothing
-    Just (Free, code) -> return code
