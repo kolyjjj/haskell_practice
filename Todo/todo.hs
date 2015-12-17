@@ -11,8 +11,12 @@ dispatch :: String -> FilePath -> String -> IO ()
 dispatch "add" fs s = add fs s
 dispatch "view" fs _ = view fs
 dispatch "remove" fs s= remove fs (read s)
+dispatch c _ _ = putStrLn $ "cannot find command"++c++". Allowed commands are: view, add, remove"
 
 main = do
-    (fileName : (command:xs)) <- getArgs
-    dispatch command fileName (head xs)
+    args <- getArgs
+    let len = length args
+    if (len >= 2)
+        then dispatch (args !! 1) (args !! 0) (if (len >2) then args !! 2 else [])
+        else putStrLn "missing arguments.<filePath><command>[message]"
 
