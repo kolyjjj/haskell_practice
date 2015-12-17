@@ -7,8 +7,8 @@ type Code = String
 type Locker = (LockerState, Code)
 type LockerMap = DMap.Map Int Locker
 
-lockers :: LockerMap
-lockers = DMap.fromList
+initialLockers :: LockerMap
+initialLockers = DMap.fromList
     [
       (101, (Free, "JK234")),
       (102, (Free, "YU789")),
@@ -23,14 +23,14 @@ lockerLookup n l = case DMap.lookup n l of
     Just (Taken, code) -> Nothing
     Just (Free, code) -> return code
 
-getOneFreeLocker :: LockerMap -> String
+getOneFreeLocker :: LockerMap -> Maybe (Int, Locker)
 getOneFreeLocker l = if DMap.null newMap
-    then "No free locker"
-    else "locker ID: " ++ (show key) ++ ", and code: " ++ code
+    then Nothing
+    else Just (key, locker)
     where newMap = DMap.filter (\(state, _) -> state == Free) l
           firstElem = head $ DMap.toList newMap
           key = fst firstElem
-          code = snd $ snd firstElem
+          locker = snd firstElem
 
 takeLocker :: Int -> Code -> LockerMap -> Maybe LockerMap
 takeLocker number code old = case DMap.lookup number old of
@@ -40,9 +40,51 @@ takeLocker number code old = case DMap.lookup number old of
         then Just $ DMap.adjust (\(s, c)->(Taken, c)) number old
         else Nothing
 
-main = do
+process :: LockerMap -> IO ()
+process lockers = do
     putStrLn "Welcome to lockers system, enter l and press enter to get an available locker. Enter quit to quit program."
+    print lockers
     command <- getLine
     when (command /= "quit") $ do
-        putStrLn $ getOneFreeLocker lockers
-        main
+        case getOneFreeLocker lockers of
+            Nothing -> do
+                putStrLn "No locker is available"
+                process lockers
+            Just (key, (_, code)) -> do
+                putStrLn $ "The available locker is: " ++ (show key) ++ " - " ++ code
+                putStrLn "Do you want to take it?(yes/no)"
+                decision <- getLine
+                case decision of
+                    "yes" -> case takeLocker key code lockers of
+                                Nothing -> process lockers
+                                Just ls -> process ls
+                    "no" -> process lockers
+                    _ -> process lockers
+
+
+
+--        putStrLn "input the number you want to take"
+--        number <- getLine
+--        putStrLn "input the code for the locker"
+--        code <- getLine
+--        case takeLocker (read number) code lockers of
+--            Nothing -> do process lockers
+--            Just ls -> process ls
+
+
+main = process initialLockers
+--main = do
+--    putStrLn "Welcome to lockers system, enter l and press enter to get an available locker. Enter quit to quit program."
+--    command <- getLine
+--    when (command /= "quit") $ do
+--        case getOneFreeLocker lockers of
+--                Nothing -> putStrLn "No locker is available"
+--                Just (key, (_, code)) -> do
+--                    putStrLn $ "The available locker is: " ++ (show key) ++ " - " ++ code
+--                    putStrLn "Do you want to take it?(yes/no)"
+--                    decision <- getLine
+--                    case decision of
+--                        "yes" -> takeLocker key code lockers
+--                        "no" ->
+--                        _ -> "wrong answer. Either yes or no."
+--        main
