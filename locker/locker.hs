@@ -40,6 +40,12 @@ takeLocker number code old = case DMap.lookup number old of
         then Just $ DMap.adjust (\(s, c)->(Taken, c)) number old
         else Nothing
 
+getDecision :: IO String
+getDecision = do
+    putStrLn "Do you want to take it?(yes/no)"
+    decision <- getLine
+    if (decision == "yes" || decision == "no") then return decision else getDecision
+
 process :: LockerMap -> IO ()
 process lockers = do
     putStrLn "Welcome to lockers system, enter l and press enter to get an available locker. Enter quit to quit program."
@@ -52,8 +58,9 @@ process lockers = do
                 process lockers
             Just (key, (_, code)) -> do
                 putStrLn $ "The available locker is: " ++ (show key) ++ " - " ++ code
-                putStrLn "Do you want to take it?(yes/no)"
-                decision <- getLine
+--                putStrLn "Do you want to take it?(yes/no)"
+--                decision <- getLine
+                decision <- getDecision
                 case decision of
                     "yes" -> case takeLocker key code lockers of
                                 Nothing -> process lockers
