@@ -46,6 +46,18 @@ getDecision = do
     decision <- getLine
     if (decision == "yes" || decision == "no") then return decision else getDecision
 
+processTaking :: Int -> Code -> LockerMap -> IO ()
+processTaking key code lockers = do
+   putStrLn $ "The available locker is: " ++ (show key) ++ " - " ++ code
+   decision <- getDecision
+   case decision of
+        "yes" -> case takeLocker key code lockers of
+                    Nothing -> process lockers
+                    Just ls -> process ls
+        "no" -> process lockers
+        _ -> process lockers
+
+
 process :: LockerMap -> IO ()
 process lockers = do
     putStrLn "Welcome to lockers system, enter l and press enter to get an available locker. Enter quit to quit program."
@@ -56,42 +68,6 @@ process lockers = do
             Nothing -> do
                 putStrLn "No locker is available"
                 process lockers
-            Just (key, (_, code)) -> do
-                putStrLn $ "The available locker is: " ++ (show key) ++ " - " ++ code
---                putStrLn "Do you want to take it?(yes/no)"
---                decision <- getLine
-                decision <- getDecision
-                case decision of
-                    "yes" -> case takeLocker key code lockers of
-                                Nothing -> process lockers
-                                Just ls -> process ls
-                    "no" -> process lockers
-                    _ -> process lockers
-
-
-
---        putStrLn "input the number you want to take"
---        number <- getLine
---        putStrLn "input the code for the locker"
---        code <- getLine
---        case takeLocker (read number) code lockers of
---            Nothing -> do process lockers
---            Just ls -> process ls
-
+            Just (key, (_, code)) -> processTaking key code lockers
 
 main = process initialLockers
---main = do
---    putStrLn "Welcome to lockers system, enter l and press enter to get an available locker. Enter quit to quit program."
---    command <- getLine
---    when (command /= "quit") $ do
---        case getOneFreeLocker lockers of
---                Nothing -> putStrLn "No locker is available"
---                Just (key, (_, code)) -> do
---                    putStrLn $ "The available locker is: " ++ (show key) ++ " - " ++ code
---                    putStrLn "Do you want to take it?(yes/no)"
---                    decision <- getLine
---                    case decision of
---                        "yes" -> takeLocker key code lockers
---                        "no" ->
---                        _ -> "wrong answer. Either yes or no."
---        main
