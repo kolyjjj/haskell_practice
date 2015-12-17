@@ -7,6 +7,8 @@ remove
 
 import Data.List
 import System.Directory
+import System.IO
+import System.IO.Error
 
 add :: FilePath -> String -> IO ()
 add fs xs = do
@@ -14,9 +16,13 @@ add fs xs = do
 
 view :: FilePath -> IO ()
 view fs = do
-    contents <- readFile fs
-    let newContents = unlines $ zipWith (\n line -> (show n) ++ " - " ++ line) [0,1..] (lines contents)
-    putStrLn newContents
+    input <- tryIOError (readFile fs)
+    case input of
+        Left e -> putStrLn ("cannot open file with" ++ fs)
+        Right contents ->
+            do
+            let newContents = unlines $ zipWith (\n line -> (show n) ++ " - " ++ line) [0,1..] (lines contents)
+            putStrLn newContents
 
 remove :: FilePath -> Int -> IO ()
 remove fs lineNumber = do
