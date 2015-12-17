@@ -344,8 +344,9 @@ seeEither (Right y) = "a y " ++ y
 
 data LockerState = Taken | Free deriving (Show, Eq)
 type Code = String
+type LockerMap = DMap.Map Int (LockerState, Code)
 
-lockers :: DMap.Map Int (LockerState, Code)
+lockers :: LockerMap
 lockers = DMap.fromList
     [
       (101, (Free, "JK234")),
@@ -355,7 +356,7 @@ lockers = DMap.fromList
       (105, (Free, "CH909"))
     ]
 
-lockerLookup :: Int -> DMap.Map Int (LockerState, Code) -> Maybe Code
+lockerLookup :: Int -> LockerMap -> Maybe Code
 lockerLookup n l = case DMap.lookup n l of
     Nothing -> Nothing
     Just (Taken, code) -> Nothing
