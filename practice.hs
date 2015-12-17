@@ -1,4 +1,5 @@
 import qualified Geometry.Sphere as GS
+import qualified Data.Map as DMap
 
 volumn = GS.volume 5.0
 
@@ -335,3 +336,27 @@ add9 :: Int -> Maybe Int
 add9 x = if x < 0 then Nothing else Just (x+9)
 
 two = Just 3 >>= add9 >>= add9 >>= add9
+
+-- Either
+seeEither :: Either Int String -> String
+seeEither (Left x) = "this is a left " ++ (show x)
+seeEither (Right y) = "a y " ++ y
+
+data LockerState = Taken | Free deriving (Show, Eq)
+type Code = String
+
+lockers :: DMap.Map Int (LockerState, Code)
+lockers = DMap.fromList
+    [
+      (101, (Free, "JK234")),
+      (102, (Free, "YU789")),
+      (103, (Free, "HG123")),
+      (104, (Free, "VN876")),
+      (105, (Free, "CH909"))
+    ]
+
+lockerLookup :: Int -> DMap.Map Int (LockerState, Code) -> Maybe Code
+lockerLookup n l = case DMap.lookup n l of
+    Nothing -> Nothing
+    Just (Taken, code) -> Nothing
+    Just (Free, code) -> return code
